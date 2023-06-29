@@ -16,14 +16,21 @@ class ArticleScrapper(object):
         Create a list of objects of type "Article"
 
         """
-        articles_list = []
-        domain = 'https://www.tabnews.com.br/api/v1/contents'
-        response = requests.get(domain)
-        articles = response.json()
+        base_url = 'https://www.tabnews.com.br/api/v1/contents'
+        per_page = 100
+        strategy = 'new'
 
-        for item in articles:
-            new_object = Article(item.get('title'), item.get('children_deep_count'), item.get('tabcoins'))
-            articles_list.append(new_object)
+
+        articles_list = []
+
+        for page in range(1,10):
+            url = f'{base_url}?page={page}&per_page={per_page}&strategy={strategy}'
+            response = requests.get(url)
+            articles = response.json()
+
+            for item in articles:
+                new_object = Article(item.get('title'), item.get('children_deep_count'), item.get('tabcoins'))
+                articles_list.append(new_object)
 
         return articles_list
     
