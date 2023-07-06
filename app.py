@@ -7,9 +7,10 @@ from scrapper.Article_model import Article
 
 scraper = ArticleScrapper()
 
-# Create a dataframe of articles
-articles_list = scraper.createArticleList()
-df = scraper.createArticleDataFrame(articles_list).fillna(0) #Fillna = replace all none values to 0
-df.to_csv('./datasets/article_dataset.csv')
-
+if __name__ == '__main__':
+    # Create a dataframe of articles
+    articles_list = scraper.createArticleList()
+    df = scraper.createArticleDataFrame(articles_list).fillna(0) #Fillna = replace all none values to 0
+    df.to_csv('./datasets/article_dataset.csv')
+    print("Dataframe successfully updated!")
 

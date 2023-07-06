@@ -17,7 +17,7 @@ class ArticleScrapper(object):
 
         """
         base_url = 'https://www.tabnews.com.br/api/v1/contents'
-        per_page = 5
+        per_page = 5 #Limit per page = 100
         strategy = 'new'
 
 
@@ -31,6 +31,7 @@ class ArticleScrapper(object):
 
             for item in articles:
                 new_object = Article(item.get('title'), item.get('children_deep_count'), item.get('tabcoins'))
+                new_object.setRelevance()
                 articles_list.append(new_object)
 
         return articles_list
