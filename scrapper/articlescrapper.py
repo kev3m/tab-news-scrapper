@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from scrapper.article import Article
+from scrapper.Article_model import Article
 
 class ArticleScrapper(object):
 
@@ -17,13 +17,14 @@ class ArticleScrapper(object):
 
         """
         base_url = 'https://www.tabnews.com.br/api/v1/contents'
-        per_page = 100
+        per_page = 5
         strategy = 'new'
 
 
         articles_list = []
-
-        for page in range(1,10):
+        
+        #Range defines the number of pages
+        for page in range(1,2):
             url = f'{base_url}?page={page}&per_page={per_page}&strategy={strategy}'
             response = requests.get(url)
             articles = response.json()

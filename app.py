@@ -2,7 +2,7 @@ import requests
 import json
 import pandas as pd
 from scrapper.articlescrapper import ArticleScrapper
-from scrapper.article import Article
+from scrapper.Article_model import Article
 
 
 scraper = ArticleScrapper()
