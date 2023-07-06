@@ -15,5 +15,5 @@ class Article:
         tabcoin_weight = 0.65
         coment_weight = 0.35
 
-        self.relevance = (self.tabcoins * tabcoin_weight) + (self.coments * coment_weight)
+        self.relevance = round((self.tabcoins * tabcoin_weight) + (self.coments * coment_weight), 3)
         
