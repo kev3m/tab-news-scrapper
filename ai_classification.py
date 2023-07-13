@@ -27,7 +27,7 @@ for index,row in df.iterrows():
 
     article_title = row[title_column]
     #Prompt used in chatGPT model
-    prompt_sequency = f"Classifique o artigo com base no titulo: '{article_title}' em uma das seguintes categorias: '{categories.items()}. Responda SOMENTE com o número equivalente a categoria."
+    prompt_sequency = f"Classify the article based on the title: '{article_title}' into one of the following categories:  '{categories.items()}.  Reply ONLY with the corresponding category number."
     # prompt_sequency = "Quanto é 30 + 20?"
     
     try:
@@ -42,5 +42,6 @@ for index,row in df.iterrows():
     except Exception as e:
         print("An error occurred", str(e))
 
-print(df)
+df.to_csv('./datasets/article_dataset.csv')
+
 
