@@ -5,23 +5,51 @@ from scrapper.Article_model import Article
 class ArticleScrapper(object):
 
     def __init__(self):
-        # Store articles in object format
-        self.articles_list = []
-        # Store articles in dict format
-        self.articles_dict_list = []
-
+        self.base_url = 'https://www.tabnews.com.br/api/v1/contents'
 
     def createArticleList(self):
         """
         Create a list of objects of type "Article"
 
         """
-        base_url = 'https://www.tabnews.com.br/api/v1/contents'
-        per_page = 5 #Limit per page = 100
-        strategy = 'new'
+        page = 1
+        per_page = 100 #Limit per page = 100
+        strategy = 'old'
 
 
         articles_list = []
+        response_empty = False
+
+        while not response_empty:
+            url = f'{self.base_url}?page={page}&per_page={per_page}&strategy={strategy}'
+            print(url)
+            response = requests.get(url)
+            articles = response.json()
+
+            if not articles:  # Verifica se a resposta está vazia
+                response_empty = True
+            else:
+                for item in articles:
+                    new_object = Article(item.get('title'), item.get('children_deep_count'), item.get('tabcoins'))
+                    new_object.setRelevance()
+                    articles_list.append(new_object)
+
+                page += 1
+
+        return articles_list
+    
+    def updateArticleList(self):
+        """
+        Create a list of objects of type "Article"
+
+        """
+        base_url = 'https://www.tabnews.com.br/api/v1/contents'
+        ## ------- AJUSTAS PARAMETROS ----------
+        per_page = 100 #Limit per page = 100
+        strategy = 'new'
+
+
+        updated_articles_list = []
         
         #Range defines the number of pages
         for page in range(1,2):
@@ -32,9 +60,10 @@ class ArticleScrapper(object):
             for item in articles:
                 new_object = Article(item.get('title'), item.get('children_deep_count'), item.get('tabcoins'))
                 new_object.setRelevance()
-                articles_list.append(new_object)
+                updated_articles_list.append(new_object)
 
-        return articles_list
+        return updated_articles_list
+
     
     def createArticleDataFrame(self, articlesList):
         """
@@ -46,7 +75,16 @@ class ArticleScrapper(object):
         for article in articles: articles_dict_list.append(article.__dict__)
         articles_df = pd.DataFrame(articles_dict_list)
         return articles_df
-        
+    
+    def updateArticleDataFrame(self):
+        df = pd.read_csv("./dasets/article_dataset.csv")
+
+
+         
+         
+    
+
+
 
 
 
